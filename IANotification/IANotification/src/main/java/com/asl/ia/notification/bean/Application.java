@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 public class Application {
 	private int threshold;
 	private String name;
-	Set<Holding> holdings;
 
 	public String getName() {
 		return name;
@@ -25,13 +24,4 @@ public class Application {
 	public void setThreshold(int threshold) {
 		this.threshold = threshold;
 	}
-
-	public Set<Holding> getHoldings() {
-		return holdings;
-	}
-
-	public void setHoldings(Set<Holding> holdings) {
-		this.holdings = holdings;
-	}
-	
 }

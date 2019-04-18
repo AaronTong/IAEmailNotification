@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.asl.ia.notification.bean.Documentum;
 import com.asl.ia.notification.bean.LocalDb;
-import com.asl.ia.notification.bean.Smtp;
 import com.asl.ia.notification.query.DqlQuery;
 
 @Component
@@ -16,20 +15,12 @@ public class AppProperties {
 	@Autowired
 	private LocalDb localDb;
 	@Autowired
-	private Smtp smtp;
-	@Autowired
 	private Documentum documentum;
 	public LocalDb getLocalDb() {
 		return localDb;
 	}
 	public void setLocalDb(LocalDb localDb) {
 		this.localDb = localDb;
-	}
-	public Smtp getSmtp() {
-		return smtp;
-	}
-	public void setSmtp(Smtp smtp) {
-		this.smtp = smtp;
 	}
 	public Documentum getDocumentum() {
 		return documentum;

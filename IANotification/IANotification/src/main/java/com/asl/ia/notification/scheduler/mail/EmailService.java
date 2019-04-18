@@ -1,12 +1,9 @@
 package com.asl.ia.notification.scheduler.mail;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.activation.FileTypeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,14 +20,6 @@ public class EmailService {
 	@Autowired
 	private EmailTemplateUtil emailTemplateUtil;
 	
-	@Autowired
-	private failedEmailTemplateUtil failTemplate;
-	
-	@Autowired
-	private overrunEmailTemplateUtil overrunTemplate;
-	
-	@Autowired
-	private successFileTemplateUtil successFileTemplate;
 	public EmailService() {
 		
 	}
@@ -45,11 +34,15 @@ public class EmailService {
 		emailSender.send(message);
 	}
 
-	//Just for reference sample
+	/**
+	 * 
+	 * @Puvadee: Remove it when don't use, Just for reference sample
+	 */
+	
 	public void sendByMailTemplateSample(final Email mail, final Map<String, Object> contents) {
 
 		Map<String, Object> model = new HashMap<>();
-		String templateName = "mailTemplate";
+		String templateName = EmailTemplateUtil.EMAIL_COMPTED_TEMLATE;
 		model.put("asofdate", new Date());
 		model.put("application", "Infocast");
 		
@@ -68,7 +61,7 @@ public class EmailService {
 	
 		model.put("holdings", holdingsList);
 		
-		String resultMail = emailTemplateUtil.getProcessedHtml(model, templateName);
+		String resultMail = emailTemplateUtil.processTemplate(model, templateName);
 
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
@@ -82,10 +75,10 @@ public class EmailService {
 	}
 
 	public void sendByMailTemplate(final Email mail, final Map<String, Object> contents, String emailTemplate) {
-		String template = EmailTemplateUtil.EMAIL_TEMLATE; //Default template
+		String template = EmailTemplateUtil.EMAIL_COMPTED_TEMLATE; //Default template
 		if( null != emailTemplate)
 			template = emailTemplate;
-		String resultMail = emailTemplateUtil.getProcessedHtml(contents, template);
+		String resultMail = emailTemplateUtil.processTemplate(contents, template);
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
 			messageHelper.setFrom(mail.getFrom());
@@ -98,10 +91,10 @@ public class EmailService {
 	}
 	
 	public void sendFailedMailByTemplate(final Email mail, final Map<String, Object> contents, String emailTemplate) {
-		String template = failedEmailTemplateUtil.EMAIL_TEMLATE; //Default template
+		String template = EmailTemplateUtil.EMAIL_FAILED_TEMLATE; //Default template
 		if( null != emailTemplate)
 			template = emailTemplate;
-		String resultMail = failTemplate.getProcessedHtml(contents, template);
+		String resultMail = emailTemplateUtil.processTemplate(contents, template);
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
 			messageHelper.setFrom(mail.getFrom());
@@ -114,10 +107,10 @@ public class EmailService {
 	}
 	
 	public void sendOverrunMailByTemplate(final Email mail, final Map<String, Object> contents, String emailTemplate) {
-		String template = failedEmailTemplateUtil.EMAIL_TEMLATE; //Default template
+		String template = EmailTemplateUtil.EMAIL_OVERRUN_TEMLATE; //Default template
 		if( null != emailTemplate)
 			template = emailTemplate;
-		String resultMail = overrunTemplate.getProcessedHtml(contents, template);
+		String resultMail = emailTemplateUtil.processTemplate(contents, template);
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
 			messageHelper.setFrom(mail.getFrom());
@@ -128,32 +121,5 @@ public class EmailService {
 		emailSender.send(messagePreparator);
 		//System.out.println(resultMail);
 	}
-	public String prepareSuccessTextFileByTemplate(final Map<String, Object> contents, String textTemplate) {
-		String template = successFileTemplateUtil.FILE_TEMLATE;
-		if(null != textTemplate) {
-			template = textTemplate;
-			System.out.println("not set");
-		}else {
-			System.out.println("set");
-		}
-		String result = successFileTemplate.getProcessedHtml(contents, textTemplate);
-		System.out.println(result);
-		return result;
-	}
-	public String prepareOverrunTextFileByTemplate(final Map<String, Object> contents, String textTemplate) {
-		String template = overrunFileTemplateUtil.FILE_TEMLATE;
-		if(null != textTemplate)
-			template = textTemplate;
-		String result = successFileTemplate.getProcessedHtml(contents, textTemplate);
-		System.out.println(result);
-		return result;
-	}
-	public String prepareFailedTextFileByTemplate(final Map<String, Object> contents, String textTemplate) {
-		String template = failedFileTemplateUtil.FILE_TEMLATE;
-		if(null != textTemplate)
-			template = textTemplate;
-		String result = successFileTemplate.getProcessedHtml(contents, textTemplate);
-		System.out.println(result);
-		return result;
-	}
+	
 }

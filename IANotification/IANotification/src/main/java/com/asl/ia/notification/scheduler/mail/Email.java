@@ -9,6 +9,7 @@ public class Email {
 	
     private String from;
     private String to;
+    private String cc;
     private String subject;
     private String content;
     
@@ -54,7 +55,17 @@ public class Email {
         this.content = content;
     }
 
-    @Override
+    
+    
+    public String getCc() {
+		return cc;
+	}
+
+	public void setCc(String cc) {
+		this.cc = cc;
+	}
+
+	@Override
     public String toString() {
         return "Mail{" +
                 "from='" + from + '\'' +

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.asl.ia.notification.bean.Repository;
+import com.asl.ia.notification.scheduler.files.FileTemplateUtil;
 import com.asl.ia.notification.scheduler.mail.Email;
 import com.asl.ia.notification.scheduler.mail.EmailService;
 import com.asl.ia.notification.util.AppProperties;
@@ -38,12 +39,14 @@ import java.io.IOException;
 @Service
 
 public class DqlQuery {
-	//private Map<String, Object> contents;
 	@Autowired
 	private EmailService es;
-	Repository repo;
-	String appName = "";
-	String outputFile = "";
+	@Autowired
+	private FileTemplateUtil fileTemplateUtil;
+	private Repository repo;
+	private String appName = "";
+	private String outputFile = "";
+	
 	public void setRepoName(Repository repo,String appName) {
 		this.repo = repo;
 		this.appName = appName;
@@ -53,7 +56,7 @@ public class DqlQuery {
 		return this.repo;
 	}
 	
-	public void run() throws Exception{
+	public void run(final Email mail) throws Exception{
 		 IDfSessionManager sessMgr = null;
 		 IDfSession sess = null;
 		try {
@@ -63,7 +66,7 @@ public class DqlQuery {
             addIdentity( sessMgr, repo.getUser(), repo.getPassword());
             sess = sessMgr.getSession(this.repo.getName());
             System.out.println( "Successfully connected to the server.");
-            queryDocumentum(sess);
+            queryDocumentum(sess, mail);
 		}catch (Exception e) {
 			System.out.println(e);
 			e.printStackTrace();
@@ -74,7 +77,7 @@ public class DqlQuery {
 		}
 	}
 	
-	private void queryDocumentum(IDfSession sess) throws Exception {
+	private void queryDocumentum(IDfSession sess, final Email mail) throws Exception {
 	    IDfQuery query = new DfQuery();
 	    String currentHolding;
 	    String currentAiusCount;
@@ -84,11 +87,6 @@ public class DqlQuery {
 	    
 	    query.setDQL(queryStr);
 	    IDfCollection coll = query.execute(sess,IDfQuery.DF_EXEC_QUERY);
-	    Email email = new Email();
-		email.setTo("aarontongwh@gmail.com");
-		email.setFrom("aarontongwh@gmail.com");
-		email.setSubject("Ingestion completed");
-		email.setContent("complete ingestion of pacckage");
 		Map<String,Object> contents = null;
 		contents = new HashMap();
 		Date date = new Date();
@@ -107,15 +105,11 @@ public class DqlQuery {
 			holdMap.put("aius", currentAiusCount);
 			holdMap.put("status", currentStatus);
 			holdingsList.add(holdMap);
-			
-			 
-			 
-	 
 	    }
 	    contents.put("holdings",holdingsList);
 	    es.sendByMailTemplate(email, contents, null);
 	    coll.close();
-	    String stringToFile =es.prepareSuccessTextFileByTemplate(contents, null);
+	    String stringToFile = fileTemplateUtil.processTemplate(contents, FileTemplateUtil.FILE_COMPLATED_TEMLATE);
 	    System.out.println(stringToFile);
 	    
 	    /**
