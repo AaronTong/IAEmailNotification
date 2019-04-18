@@ -1,0 +1,32 @@
+@Autowired
+    private EmailService emailService;
+	Repository rp;
+	@Value("${notifications.smtp.ip}")
+	private static String name;
+	public static void main(String[] args) {
+		System.out.println(name);
+		SpringApplication sa = new SpringApplication(IaNotificationApplication.class);
+		sa.run(args);
+		//SpringApplication.run(IaNotificationApplication.class, args);
+		String filename = "C:\\Users\\Administrator\\eclipse-workspace\\IANotification\\IANotification\\src\\main\\resources.ia-application.yml";
+		File file = new File(filename);
+		if (file == null) {
+			System.out.println("File doesn't exist");
+		}else {
+			System.out.println("File exists");
+		}
+		
+		//ScheduledTasks st = new ScheduledTasks();
+		//st.reportCurrentTime();
+	}
+
+	@Override
+	public void run(ApplicationArguments applicationArguments) throws Exception {
+		 Email mail = new Email(); 
+		
+		 mail.setFrom("aarontongwh@gmail.com");
+		 mail.setTo("aarontongwh@gmail.com");
+		 mail.setSubject("Test template");
+		
+		//emailService.sendByMailTemplateSample(mail, null);
+	}

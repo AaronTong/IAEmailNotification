@@ -1,0 +1,52 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.asl.ia.notification.util.AppProperties",
+      "name": "notification",
+      "type": "com.asl.ia.notification.util.AppProperties"
+    },
+    {
+      "sourceType": "com.asl.ia.notification.scheduler.mail.Email",
+      "name": "string.mail",
+      "type": "com.asl.ia.notification.scheduler.mail.Email"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.asl.ia.notification.util.AppProperties",
+      "name": "notification.documentum",
+      "type": "com.asl.ia.notification.bean.Documentum"
+    },
+    {
+      "sourceType": "com.asl.ia.notification.util.AppProperties",
+      "name": "notification.local-db",
+      "type": "com.asl.ia.notification.bean.LocalDb"
+    },
+    {
+      "sourceType": "com.asl.ia.notification.util.AppProperties",
+      "name": "notification.smtp",
+      "type": "com.asl.ia.notification.bean.Smtp"
+    },
+    {
+      "sourceType": "com.asl.ia.notification.scheduler.mail.Email",
+      "name": "string.mail.content",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.asl.ia.notification.scheduler.mail.Email",
+      "name": "string.mail.from",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.asl.ia.notification.scheduler.mail.Email",
+      "name": "string.mail.subject",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.asl.ia.notification.scheduler.mail.Email",
+      "name": "string.mail.to",
+      "type": "java.lang.String"
+    }
+  ]
+}
