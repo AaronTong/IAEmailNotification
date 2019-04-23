@@ -1,0 +1,37 @@
+notification:
+  localdb:
+    path: C:\\Users\\Administrator\\Downloads
+    dbname: ia_notify_db.db
+    
+
+  documentum:
+    repositories:
+      - name: ARCHIVES
+        user: Administrator
+        password: P@ssw0rd
+      - name: ESTATMENTS
+        user: Administrator
+        password: P@ssw0rd
+        
+
+  scheduler:
+    cron: "0 45 10 ? * MON-FRI"
+      
+
+spring:
+  main:
+    web-application-type: NONE
+  mail:
+    default-encoding: "UTF-8"
+    host: "smtp.gmail.com"
+    username: "aarontongwh@gmail.com"
+    password: "at7291993"
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable:   true 
+            protocol: smtp
+    test-connection: true

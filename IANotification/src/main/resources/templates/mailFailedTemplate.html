@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+	<p>
+		<span style="font:bold;">Application name:&nbsp;</span>
+		<span th:text="${application}"></span>&nbsp;
+		as of &nbsp;<span th:text="${asofdate}"></span>
+	</p>
+	<table style="width: 70%; border-style:inherit; table-layout: inherit; border-width:thin;">
+		<thead>
+			<tr>
+				<th style="width: 50%; text-align: left">Holding Name</th>
+				<th style="width: 20%; text-align: right">AIUs</th>
+				<th style="width: 30%; text-align: center">Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="holding : ${holdings}">
+				<td style="text-align: left"><span th:text="${holding.aius}"></span></td>
+				<td style="text-align: right"><span th:text="${holding.status}"></span></td>
+				<td style="text-align: center"><span th:text="Invalid"></span></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
